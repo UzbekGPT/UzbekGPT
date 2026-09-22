@@ -3,209 +3,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UzbekGPT</title>
+
+<title>UzbekGPT Pro</title>
 
 <style>
 * {
     box-sizing: border-box;
 }
 
+:root {
+    --bg: #ffffff;
+    --sidebar: #f7f7f8;
+    --text: #171717;
+    --muted: #777;
+    --border: #e5e5e5;
+    --hover: #ececec;
+    --user: #f0f0f0;
+    --input: #ffffff;
+}
+
+body.dark {
+    --bg: #212121;
+    --sidebar: #171717;
+    --text: #eeeeee;
+    --muted: #999;
+    --border: #333;
+    --hover: #2b2b2b;
+    --user: #303030;
+    --input: #2b2b2b;
+}
+
 body {
     margin: 0;
+    background: var(--bg);
+    color: var(--text);
     font-family: Arial, sans-serif;
-    background: white;
-    color: #222;
 }
 
 /* SIDEBAR */
+
 .sidebar {
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
-    width: 260px;
-    background: #f7f7f8;
-    padding: 15px;
-    border-right: 1px solid #ddd;
-    overflow-y: auto;
+    width: 270px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
 }
 
 .logo {
-    font-size: 21px;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
     padding: 12px;
-    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.pro {
+    font-size: 10px;
+    background: #222;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 5px;
+    margin-left: auto;
 }
 
 .new-chat {
-    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 10px;
     padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 9px;
-    background: white;
+    font-size: 15px;
     cursor: pointer;
     text-align: left;
-    font-size: 15px;
+    margin-top: 8px;
 }
 
 .new-chat:hover {
-    background: #eee;
+    background: var(--hover);
 }
 
 .history-title {
-    margin: 25px 10px 10px;
-    font-size: 13px;
-    color: #777;
+    color: var(--muted);
+    font-size: 12px;
+    margin: 25px 10px 8px;
+}
+
+#history {
+    overflow-y: auto;
 }
 
 .chat-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 6px;
     padding: 10px;
-    margin: 3px 0;
-    border-radius: 8px;
+    border-radius: 9px;
     cursor: pointer;
-    font-size: 14px;
+    margin-bottom: 3px;
 }
 
 .chat-item:hover {
-    background: #e9e9e9;
+    background: var(--hover);
 }
 
 .chat-item.active {
-    background: #ddd;
+    background: var(--hover);
 }
 
 .chat-name {
+    flex: 1;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 180px;
+    font-size: 14px;
 }
 
 .delete-chat {
     border: none;
     background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    opacity: 0;
+}
+
+.chat-item:hover .delete-chat {
+    opacity: 1;
+}
+
+/* BOTTOM */
+
+.bottom-menu {
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+}
+
+.menu-button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    padding: 11px;
+    border-radius: 9px;
+    text-align: left;
     cursor: pointer;
     font-size: 14px;
 }
 
-/* MAIN */
-.main {
-    margin-left: 260px;
-    min-height: 100vh;
-    padding-bottom: 120px;
+.menu-button:hover {
+    background: var(--hover);
 }
 
-.top {
+/* MAIN */
+
+.main {
+    margin-left: 270px;
+    min-height: 100vh;
+    padding-bottom: 125px;
+}
+
+.topbar {
     height: 60px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 25px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 5;
+}
+
+.top-title {
     font-weight: bold;
 }
 
+.status {
+    font-size: 12px;
+    color: #10a37f;
+}
+
+/* CHAT */
+
 #chat {
-    max-width: 850px;
+    max-width: 900px;
     margin: auto;
-    padding: 30px 20px;
+    padding: 30px 25px;
 }
 
 .welcome {
     text-align: center;
-    margin-top: 120px;
+    margin-top: 130px;
 }
 
 .welcome h1 {
-    font-size: 32px;
+    font-size: 36px;
+    margin-bottom: 12px;
 }
 
 .welcome p {
-    color: #777;
+    color: var(--muted);
+    font-size: 16px;
 }
 
-/* MESSAGES */
+/* MESSAGE */
+
 .message {
     display: flex;
-    margin: 22px 0;
+    margin: 25px 0;
 }
 
-.message div {
-    max-width: 80%;
-    padding: 13px 17px;
-    border-radius: 12px;
-    line-height: 1.6;
+.message-content {
+    max-width: 78%;
+    padding: 14px 17px;
+    line-height: 1.65;
     white-space: pre-wrap;
+    border-radius: 15px;
+    font-size: 15px;
 }
 
 .user {
     justify-content: flex-end;
 }
 
-.user div {
-    background: #f0f0f0;
+.user .message-content {
+    background: var(--user);
 }
 
 .bot {
     justify-content: flex-start;
 }
 
-.bot div {
-    background: white;
+.bot .message-content {
+    background: transparent;
 }
 
 /* INPUT */
+
 #inputArea {
     position: fixed;
     bottom: 0;
-    left: 260px;
+    left: 270px;
     right: 0;
     padding: 20px;
-    background: linear-gradient(transparent, white 30%);
+    background: linear-gradient(
+        transparent,
+        var(--bg) 35%
+    );
+    z-index: 8;
 }
 
 .input-box {
-    max-width: 800px;
+    max-width: 850px;
     margin: auto;
     display: flex;
+    align-items: center;
     gap: 8px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    background: white;
-    box-shadow: 0 2px 10px #ddd;
+    padding: 8px 9px 8px 15px;
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    box-shadow: 0 5px 25px #0001;
 }
 
 #question {
     flex: 1;
+    min-width: 0;
     border: none;
     outline: none;
-    padding: 12px;
+    background: transparent;
+    color: var(--text);
     font-size: 16px;
+    padding: 12px 0;
+}
+
+#question::placeholder {
+    color: var(--muted);
 }
 
 #sendBtn {
-    width: 45px;
-    height: 45px;
+    width: 43px;
+    height: 43px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     background: #222;
     color: white;
     cursor: pointer;
     font-size: 20px;
 }
 
-#sendBtn:hover {
-    background: #000;
+/* LOADING */
+
+.loading {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    background: #888;
+    border-radius: 50%;
+    animation: bounce 1s infinite;
+}
+
+.dot:nth-child(2) {
+    animation-delay: .15s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: .3s;
+}
+
+@keyframes bounce {
+
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-6px);
+    }
+
 }
 
 /* MOBILE */
-@media(max-width:700px) {
+
+.mobile-menu {
+    display: none;
+}
+
+@media(max-width:750px) {
 
     .sidebar {
-        display: none;
+        transform: translateX(-100%);
+        transition: .25s;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
     }
 
     .main {
@@ -216,7 +361,16 @@ body {
         left: 0;
     }
 
-    .message div {
+    .mobile-menu {
+        display: block;
+        border: none;
+        background: transparent;
+        color: var(--text);
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .message-content {
         max-width: 90%;
     }
 }
@@ -226,45 +380,71 @@ body {
 <body>
 
 <!-- SIDEBAR -->
-<aside class="sidebar">
+
+<aside class="sidebar" id="sidebar">
 
     <div class="logo">
-        UzbekGPT 🤖
+        <span>UzbekGPT</span>
+        <span class="pro">PRO</span>
     </div>
 
     <button class="new-chat" onclick="newChat()">
-        ＋ Yangi chat
+        ＋ &nbsp; Yangi chat
     </button>
 
     <div class="history-title">
-        Eski chatlar
+        CHAT TARIXI
     </div>
 
     <div id="history"></div>
+
+    <div class="bottom-menu">
+
+        <button class="menu-button" onclick="toggleTheme()">
+            🌙 &nbsp; Rejimni almashtirish
+        </button>
+
+        <button class="menu-button" onclick="clearAllChats()">
+            🗑️ &nbsp; Barcha chatlarni o‘chirish
+        </button>
+
+    </div>
 
 </aside>
 
 
 <!-- MAIN -->
+
 <main class="main">
 
-    <div class="top">
-        UzbekGPT
-    </div>
+    <header class="topbar">
 
-    <div id="chat">
+        <button
+            class="mobile-menu"
+            onclick="toggleSidebar()">
 
-        <div class="welcome">
-            <h1>UzbekGPT</h1>
-            <p>Sizga qanday yordam bera olaman?</p>
+            ☰
+
+        </button>
+
+        <div class="top-title">
+            UzbekGPT
         </div>
 
-    </div>
+        <div class="status">
+            ● Online
+        </div>
+
+    </header>
+
+
+    <div id="chat"></div>
 
 </main>
 
 
 <!-- INPUT -->
+
 <div id="inputArea">
 
     <div class="input-box">
@@ -272,12 +452,16 @@ body {
         <input
             id="question"
             type="text"
-            placeholder="Xabar yuboring..."
+            placeholder="UzbekGPT'ga xabar yuboring..."
             autocomplete="off"
         >
 
-        <button id="sendBtn" onclick="sendMessage()">
+        <button
+            id="sendBtn"
+            onclick="sendMessage()">
+
             ↑
+
         </button>
 
     </div>
@@ -296,59 +480,126 @@ const chat =
 const history =
     document.getElementById("history");
 
+const sidebar =
+    document.getElementById("sidebar");
+
 
 let chats =
-    JSON.parse(localStorage.getItem("uzbekgpt_chats") || "[]");
+    JSON.parse(
+        localStorage.getItem(
+            "uzbekgpt_chats"
+        ) || "[]"
+    );
+
 
 let currentChat = null;
 
 
-/* YANGI CHAT */
-function newChat() {
-
-    currentChat = {
-        id: Date.now(),
-        title: "Yangi chat",
-        messages: []
-    };
-
-    chats.unshift(currentChat);
-
-    saveChats();
-
-    showChat();
-
-    renderHistory();
-
-    questionInput.focus();
-}
-
-
 /* SAQLASH */
+
 function saveChats() {
 
     localStorage.setItem(
         "uzbekgpt_chats",
         JSON.stringify(chats)
     );
+
 }
 
 
-/* CHATNI KO'RSATISH */
-function showChat() {
+/* YANGI CHAT */
+
+function newChat() {
+
+    currentChat = {
+
+        id: Date.now(),
+
+        title: "Yangi chat",
+
+        messages: []
+
+    };
+
+    chats.unshift(currentChat);
+
+    saveChats();
+
+    renderHistory();
+
+    renderCurrentChat();
+
+    questionInput.focus();
+
+    sidebar.classList.remove("open");
+
+}
+
+
+/* BOSH CHAT */
+
+function showWelcome() {
+
+    chat.innerHTML = `
+
+        <div class="welcome">
+
+            <h1>UzbekGPT</h1>
+
+            <p>
+                Sizga qanday yordam bera olaman?
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* XABAR QO‘SHISH */
+
+function addMessageToScreen(text, type) {
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message " + type;
+
+
+    const content =
+        document.createElement("div");
+
+    content.className =
+        "message-content";
+
+    content.textContent = text;
+
+
+    message.appendChild(content);
+
+    chat.appendChild(message);
+
+}
+
+
+/* HOZIRGI CHATNI CHIZISH */
+
+function renderCurrentChat() {
 
     chat.innerHTML = "";
 
-    if (!currentChat || currentChat.messages.length === 0) {
 
-        chat.innerHTML = `
-            <div class="welcome">
-                <h1>UzbekGPT</h1>
-                <p>Sizga qanday yordam bera olaman?</p>
-            </div>
-        `;
+    if (
+        !currentChat ||
+        currentChat.messages.length === 0
+    ) {
+
+        showWelcome();
 
         return;
+
     }
 
 
@@ -360,80 +611,155 @@ function showChat() {
         );
 
     });
+
 }
 
 
-/* XABARNI EKRANGA CHIQARISH */
-function addMessageToScreen(text, type) {
+/* PASTGA */
 
-    const message =
-        document.createElement("div");
+function scrollBottom() {
 
-    message.className =
-        "message " + type;
+    setTimeout(() => {
 
-    const content =
-        document.createElement("div");
+        window.scrollTo({
 
-    content.textContent = text;
+            top:
+                document.body.scrollHeight,
 
-    message.appendChild(content);
+            behavior: "smooth"
 
-    chat.appendChild(message);
+        });
+
+    }, 50);
+
 }
 
 
 /* XABAR YUBORISH */
+
 async function sendMessage() {
 
     const question =
         questionInput.value.trim();
 
+
     if (!question) return;
 
 
-    /* Agar chat yo'q bo'lsa */
     if (!currentChat) {
+
         newChat();
+
     }
 
 
-    /* USER */
+    /* USER XABARINI SAQLAYMIZ */
+
     currentChat.messages.push({
+
         text: question,
+
         type: "user"
+
     });
 
 
-    if (currentChat.title === "Yangi chat") {
+    if (
+        currentChat.title === "Yangi chat"
+    ) {
 
         currentChat.title =
-            question.substring(0, 30);
+            question.substring(0, 35);
 
     }
 
 
     questionInput.value = "";
 
-    showChat();
 
-    renderHistory();
+    /*
+       MUHIM:
 
-    saveChats();
+       BUTUN CHATNI O‘CHIRIB
+       QAYTA CHIZMAYMIZ.
 
+       FAQAT YANGI XABARNI
+       PASTIGA QO‘SHAMIZ.
+    */
 
-    /* LOADING */
     addMessageToScreen(
-        "⏳ Javob tayyorlanmoqda...",
-        "bot"
+        question,
+        "user"
     );
 
 
-    const loadingMessage =
-        chat.lastElementChild;
+    saveChats();
+
+    renderHistory();
+
+    scrollBottom();
+
+
+    /* LOADING */
+
+    const loading =
+        document.createElement("div");
+
+    loading.className =
+        "message bot";
+
+    loading.innerHTML = `
+
+        <div class="message-content">
+
+            <div class="loading">
+
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    chat.appendChild(loading);
+
+    scrollBottom();
 
 
     try {
+
+        /*
+           OLDINGI BARCHA
+           SUHBATNI SERVERGA YUBORAMIZ
+        */
+
+        const conversation =
+            currentChat.messages
+                .map(message => {
+
+                    if (
+                        message.type === "user"
+                    ) {
+
+                        return (
+                            "Foydalanuvchi: " +
+                            message.text
+                        );
+
+                    }
+
+                    return (
+                        "UzbekGPT: " +
+                        message.text
+                    );
+
+                })
+                .join("\n\n");
+
 
         const response =
             await fetch("/api/chat", {
@@ -441,11 +767,17 @@ async function sendMessage() {
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json"
+
+                    "Content-Type":
+                        "application/json"
+
                 },
 
                 body: JSON.stringify({
-                    question: question
+
+                    question:
+                        conversation
+
                 })
 
             });
@@ -455,37 +787,68 @@ async function sendMessage() {
             await response.json();
 
 
-        loadingMessage.remove();
+        loading.remove();
 
 
         if (data.answer) {
 
+            /*
+               JAVOBNI SHUNCHAKI
+               PASTIGA QO‘SHAMIZ
+            */
+
             currentChat.messages.push({
+
                 text: data.answer,
+
                 type: "bot"
+
             });
+
+
+            addMessageToScreen(
+
+                data.answer,
+
+                "bot"
+
+            );
+
 
             saveChats();
 
-            showChat();
+            renderHistory();
 
-        } else {
+            scrollBottom();
+
+        }
+
+        else {
 
             addMessageToScreen(
+
+                data.error ||
                 "Xatolik yuz berdi.",
+
                 "bot"
+
             );
 
         }
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
-        loadingMessage.remove();
+        loading.remove();
+
 
         addMessageToScreen(
+
             "Server bilan bog‘lanib bo‘lmadi.",
+
             "bot"
+
         );
 
     }
@@ -493,7 +856,8 @@ async function sendMessage() {
 }
 
 
-/* ESKI CHATLAR */
+/* TARIX */
+
 function renderHistory() {
 
     history.innerHTML = "";
@@ -504,21 +868,25 @@ function renderHistory() {
         const row =
             document.createElement("div");
 
-        row.className = "chat-item";
+        row.className =
+            "chat-item";
 
 
         if (
             currentChat &&
             currentChat.id === item.id
         ) {
+
             row.classList.add("active");
+
         }
 
 
         const name =
             document.createElement("span");
 
-        name.className = "chat-name";
+        name.className =
+            "chat-name";
 
         name.textContent =
             "💬 " + item.title;
@@ -531,7 +899,7 @@ function renderHistory() {
             "delete-chat";
 
         deleteButton.textContent =
-            "🗑️";
+            "✕";
 
 
         deleteButton.onclick =
@@ -563,24 +931,35 @@ function renderHistory() {
 }
 
 
-/* CHATNI OCHISH */
+/* CHAT OCHISH */
+
 function openChat(id) {
 
     currentChat =
-        chats.find(item => item.id === id);
+        chats.find(
+            item => item.id === id
+        );
 
-    showChat();
+
+    renderCurrentChat();
 
     renderHistory();
+
+    sidebar.classList.remove("open");
+
+    scrollBottom();
 
 }
 
 
-/* CHATNI O'CHIRISH */
+/* CHAT O‘CHIRISH */
+
 function deleteChat(id) {
 
     chats =
-        chats.filter(item => item.id !== id);
+        chats.filter(
+            item => item.id !== id
+        );
 
 
     if (
@@ -590,7 +969,7 @@ function deleteChat(id) {
 
         currentChat = null;
 
-        showChat();
+        showWelcome();
 
     }
 
@@ -602,27 +981,107 @@ function deleteChat(id) {
 }
 
 
+/* BARCHA CHATLAR */
+
+function clearAllChats() {
+
+    if (
+        !confirm(
+            "Barcha chatlarni o‘chirishni xohlaysizmi?"
+        )
+    ) return;
+
+
+    chats = [];
+
+    currentChat = null;
+
+
+    saveChats();
+
+    showWelcome();
+
+    renderHistory();
+
+}
+
+
+/* DARK MODE */
+
+function toggleTheme() {
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+
+        "uzbekgpt_dark",
+
+        document.body.classList.contains("dark")
+
+    );
+
+}
+
+
+/* MOBIL */
+
+function toggleSidebar() {
+
+    sidebar.classList.toggle("open");
+
+}
+
+
 /* ENTER */
+
 questionInput.addEventListener(
+
     "keydown",
+
     function(event) {
 
         if (event.key === "Enter") {
+
             sendMessage();
+
         }
 
     }
+
 );
 
 
-/* BOSHLANG'ICH */
+/* DARK MODE */
+
+if (
+
+    localStorage.getItem(
+        "uzbekgpt_dark"
+    ) === "true"
+
+) {
+
+    document.body.classList.add("dark");
+
+}
+
+
+/* BOSHLANG‘ICH */
+
 renderHistory();
+
 
 if (chats.length > 0) {
 
     currentChat = chats[0];
 
-    showChat();
+    renderCurrentChat();
+
+}
+
+else {
+
+    showWelcome();
 
 }
 
