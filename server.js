@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -12,7 +11,7 @@ app.use(express.json());
 app.use(express.static("."));
 
 const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY
+    apiKey: process.env.UZBEKGPT_API_KEY
 });
 
 app.get("/api/test", (req, res) => {
@@ -27,27 +26,13 @@ app.post("/api/chat", async (req, res) => {
 
         if (!question) {
             return res.status(400).json({
-                error: "Savol yuborilmadi"
+                error: "Savol yozilmadi"
             });
         }
 
-        const prompt = `
-Sen UzbekGPT nomli sun'iy intellektsan.
-
-Qoidalar:
-- Sening isming UzbekGPT.
-- Agar ismingni so'rashsa, "Mening ismim UzbekGPT" deb javob ber.
-- Hech qachon o'zingni Gemini deb tanishtirma.
-- Javoblarni imkon qadar o'zbek tilida ber.
-- Samimiy va tushunarli javob ber.
-
-Foydalanuvchi savoli:
-${question}
-`;
-
         const response = await ai.models.generateContent({
             model: "gemini-3.6-flash",
-            contents: prompt
+            contents: question
         });
 
         res.json({
@@ -55,14 +40,17 @@ ${question}
         });
 
     } catch (error) {
-        console.error("GEMINI XATOSI:", error);
+
+        console.error(error);
 
         res.status(500).json({
-            error: "AI bilan bog'lanishda xatolik yuz berdi."
+            error: "Xatolik yuz berdi"
         });
     }
 });
 
-app.listen(3000, () => {
-    console.log("UzbekGPT server: http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log("UzbekGPT ishlayapti 🚀");
 });
