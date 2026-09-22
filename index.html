@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UzbekGPT</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f7f8;
+            color: #222;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #ddd;
+            padding: 18px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #chat {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 25px 20px 120px;
+        }
+
+        .welcome {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .welcome h1 {
+            font-size: 28px;
+        }
+
+        .welcome p {
+            color: #777;
+        }
+
+        .message {
+            display: flex;
+            margin: 15px 0;
+        }
+
+        .message div {
+            max-width: 75%;
+            padding: 13px 17px;
+            border-radius: 15px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .bot {
+            justify-content: flex-start;
+        }
+
+        .bot div {
+            background: #ffffff;
+            border: 1px solid #e1e1e1;
+        }
+
+        .user {
+            justify-content: flex-end;
+        }
+
+        .user div {
+            background: #d9fdd3;
+        }
+
+        #inputArea {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #ddd;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #question {
+            width: min(700px, 75%);
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 12px;
+            background: #10a37f;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #078766;
+        }
+
+        #clearBtn {
+            position: fixed;
+            right: 20px;
+            top: 75px;
+            background: white;
+            color: #555;
+            border: 1px solid #ddd;
+            padding: 9px 14px;
+        }
+
+        @media (max-width: 600px) {
+            .message div {
+                max-width: 90%;
+            }
+
+            #clearBtn {
+                position: static;
+                display: block;
+                margin: 15px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="clearBtn" onclick="clearChat()">🗑️ Yangi chat</button>
+
+    <main id="chat">
+        <div class="welcome">
+            <h1>Salom! 👋</h1>
+            <p>Men UzbekGPT. Savolingni yoz!</p>
+        </div>
+    </main>
+
+    <div id="inputArea">
+        <input
+            id="question"
+            type="text"
+            placeholder="Savolingni yoz..."
+            autocomplete="off"
+        >
+
+        <button onclick="sendMessage()">Yuborish</button>
+    </div>
+
+    <script>
+        const questionInput = document.getElementById("question");
+        const chat = document.getElementById("chat");
+
+        function addMessage(text, type) {
+            const message = document.createElement("div");
+            message.className = "message " + type;
+
+            const content = document.createElement("div");
+            content.textContent = text;
+
+            message.appendChild(content);
+            chat.appendChild(message);
+
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth"
+            });
+        }
+
+        async function sendMessage() {
+            const question = questionInput.value.trim();
+
+            if (!question) return;
+
+            addMessage(question, "user");
+            questionInput.value = "";
+
+            addMessage("⏳ Javob tayyorlanmoqda...", "bot");
+
+            const loadingMessage = chat.lastElementChild;
+
+            try {
+                const response = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        question: question
+                    })
+                });
+
+                const data = await response.json();
+
+                loadingMessage.remove();
+
+                if (data.answer) {
+                    addMessage(data.answer, "bot");
+                } else {
+                    addMessage("Xatolik yuz berdi.", "bot");
+                }
+
+            } catch (error) {
+                loadingMessage.remove();
+                addMessage(
+                    "Server bilan bog‘lanib bo‘lmadi. Server ishlayotganini tekshir.",
+                    "bot"
+                );
+            }
+        }
+
+        questionInput.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+
+        function clearChat() {
+            chat.innerHTML = `
+                <div class="welcome">
+                    <h1>Salom! 👋</h1>
+                    <p>Men UzbekGPT. Savolingni yoz!</p>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>
