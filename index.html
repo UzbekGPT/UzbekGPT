@@ -1,377 +1,282 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>UzbekGPT Pro</title>
+<title>UzbekGPT PRO</title>
 
 <style>
 * {
     box-sizing: border-box;
 }
 
-:root {
-    --bg: #ffffff;
-    --sidebar: #f7f7f8;
-    --text: #171717;
-    --muted: #777;
-    --border: #e5e5e5;
-    --hover: #ececec;
-    --user: #f0f0f0;
-    --input: #ffffff;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    background: #fff;
+    color: #222;
 }
 
 body.dark {
-    --bg: #212121;
-    --sidebar: #171717;
-    --text: #eeeeee;
-    --muted: #999;
-    --border: #333;
-    --hover: #2b2b2b;
-    --user: #303030;
-    --input: #2b2b2b;
+    background: #212121;
+    color: #fff;
 }
-
-body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: Arial, sans-serif;
-}
-
-/* SIDEBAR */
 
 .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 270px;
-    background: var(--sidebar);
-    border-right: 1px solid var(--border);
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    z-index: 10;
+    width: 250px;
+    background: #f5f5f5;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+}
+
+.dark .sidebar {
+    background: #171717;
+    border-color: #444;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
+    margin-bottom: 25px;
 }
 
-.pro {
-    font-size: 10px;
-    background: #222;
-    color: white;
-    padding: 3px 6px;
-    border-radius: 5px;
-    margin-left: auto;
-}
-
-.new-chat {
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--text);
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 15px;
+button {
     cursor: pointer;
-    text-align: left;
-    margin-top: 8px;
+    border: none;
 }
 
-.new-chat:hover {
-    background: var(--hover);
+.side-button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 14px;
+}
+
+.side-button:hover {
+    background: #ddd;
+}
+
+.dark .side-button {
+    color: white;
+    border-color: #555;
+}
+
+.dark .side-button:hover {
+    background: #333;
 }
 
 .history-title {
-    color: var(--muted);
-    font-size: 12px;
-    margin: 25px 10px 8px;
-}
-
-#history {
-    overflow-y: auto;
-}
-
-.chat-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px;
-    border-radius: 9px;
-    cursor: pointer;
-    margin-bottom: 3px;
-}
-
-.chat-item:hover {
-    background: var(--hover);
-}
-
-.chat-item.active {
-    background: var(--hover);
-}
-
-.chat-name {
-    flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: 14px;
-}
-
-.delete-chat {
-    border: none;
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    opacity: 0;
-}
-
-.chat-item:hover .delete-chat {
-    opacity: 1;
-}
-
-/* BOTTOM */
-
-.bottom-menu {
-    margin-top: auto;
-    border-top: 1px solid var(--border);
-    padding-top: 10px;
-}
-
-.menu-button {
-    width: 100%;
-    border: none;
-    background: transparent;
-    color: var(--text);
-    padding: 11px;
-    border-radius: 9px;
-    text-align: left;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.menu-button:hover {
-    background: var(--hover);
-}
-
-/* MAIN */
-
-.main {
-    margin-left: 270px;
-    min-height: 100vh;
-    padding-bottom: 125px;
-}
-
-.topbar {
-    height: 60px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 5;
-}
-
-.top-title {
+    margin-top: 25px;
     font-weight: bold;
 }
 
-.status {
-    font-size: 12px;
-    color: #10a37f;
+#history {
+    margin-top: 12px;
+    overflow-y: auto;
+    max-height: 60vh;
 }
 
-/* CHAT */
-
-#chat {
-    max-width: 900px;
-    margin: auto;
-    padding: 30px 25px;
+.history-item {
+    padding: 9px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    overflow-wrap: anywhere;
 }
 
-.welcome {
-    text-align: center;
-    margin-top: 130px;
+.history-item:hover {
+    background: #ddd;
 }
 
-.welcome h1 {
-    font-size: 36px;
-    margin-bottom: 12px;
+.dark .history-item:hover {
+    background: #333;
 }
 
-.welcome p {
-    color: var(--muted);
-    font-size: 16px;
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
-/* MESSAGE */
+.header {
+    padding: 20px;
+    font-size: 21px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.dark .header {
+    border-color: #444;
+}
+
+.chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px 20px;
+}
 
 .message {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 25px;
     display: flex;
-    margin: 25px 0;
+    align-items: flex-start;
+    gap: 12px;
 }
 
-.message-content {
-    max-width: 78%;
-    padding: 14px 17px;
-    line-height: 1.65;
-    white-space: pre-wrap;
-    border-radius: 15px;
-    font-size: 15px;
-}
-
-.user {
+.message.user {
     justify-content: flex-end;
 }
 
-.user .message-content {
-    background: var(--user);
-}
-
-.bot {
+.message.assistant {
     justify-content: flex-start;
 }
 
-.bot .message-content {
-    background: transparent;
+.avatar {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    background: #10a37f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }
 
-/* INPUT */
+.message.user .avatar {
+    order: 2;
+    background: #2563eb;
+}
 
-#inputArea {
-    position: fixed;
-    bottom: 0;
-    left: 270px;
-    right: 0;
-    padding: 20px;
-    background: linear-gradient(
-        transparent,
-        var(--bg) 35%
-    );
-    z-index: 8;
+.message-content {
+    max-width: 75%;
+    padding: 13px 17px;
+    border-radius: 18px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.message.user .message-content {
+    order: 1;
+    background: #dbeafe;
+    color: #111827;
+    border-bottom-right-radius: 4px;
+}
+
+.message.assistant .message-content {
+    background: #eee;
+    color: #111827;
+    border-bottom-left-radius: 4px;
+}
+
+.dark .message.user .message-content {
+    background: #1d4ed8;
+    color: white;
+}
+
+.dark .message.assistant .message-content {
+    background: #303030;
+    color: white;
+}
+
+.message-content img {
+    display: block;
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 12px;
+}
+
+.input-area {
+    padding: 15px 20px 20px;
+    border-top: 1px solid #ddd;
+}
+
+.dark .input-area {
+    border-color: #444;
 }
 
 .input-box {
-    max-width: 850px;
+    max-width: 900px;
     margin: auto;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 9px 8px 15px;
-    background: var(--input);
-    border: 1px solid var(--border);
-    border-radius: 17px;
-    box-shadow: 0 5px 25px #0001;
+    gap: 7px;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 16px;
+    background: white;
 }
 
-#question {
+.dark .input-box {
+    background: #2f2f2f;
+    border-color: #555;
+}
+
+#prompt {
     flex: 1;
     min-width: 0;
     border: none;
     outline: none;
-    background: transparent;
-    color: var(--text);
+    resize: none;
+    padding: 10px;
     font-size: 16px;
-    padding: 12px 0;
+    background: transparent;
+    color: inherit;
 }
 
-#question::placeholder {
-    color: var(--muted);
+.tool-button,
+.send-button {
+    padding: 11px 13px;
+    border-radius: 10px;
+    font-size: 17px;
 }
 
-#sendBtn {
-    width: 43px;
-    height: 43px;
-    border: none;
-    border-radius: 12px;
-    background: #222;
+.tool-button {
+    background: #e5e7eb;
+}
+
+.send-button {
+    background: #10a37f;
     color: white;
-    cursor: pointer;
-    font-size: 20px;
 }
 
-/* LOADING */
-
-.loading {
-    display: flex;
-    gap: 5px;
-    align-items: center;
+.tool-button:hover,
+.send-button:hover {
+    opacity: .75;
 }
 
-.dot {
-    width: 7px;
-    height: 7px;
-    background: #888;
-    border-radius: 50%;
-    animation: bounce 1s infinite;
+.status {
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    margin-top: 8px;
 }
 
-.dot:nth-child(2) {
-    animation-delay: .15s;
-}
-
-.dot:nth-child(3) {
-    animation-delay: .3s;
-}
-
-@keyframes bounce {
-
-    0%, 80%, 100% {
-        transform: translateY(0);
-    }
-
-    40% {
-        transform: translateY(-6px);
-    }
-
-}
-
-/* MOBILE */
-
-.mobile-menu {
-    display: none;
-}
-
-@media(max-width:750px) {
-
+@media (max-width: 700px) {
     .sidebar {
-        transform: translateX(-100%);
-        transition: .25s;
-    }
-
-    .sidebar.open {
-        transform: translateX(0);
-    }
-
-    .main {
-        margin-left: 0;
-    }
-
-    #inputArea {
-        left: 0;
-    }
-
-    .mobile-menu {
-        display: block;
-        border: none;
-        background: transparent;
-        color: var(--text);
-        font-size: 22px;
-        cursor: pointer;
+        display: none;
     }
 
     .message-content {
-        max-width: 90%;
+        max-width: 85%;
+    }
+
+    .chat {
+        padding: 20px 10px;
+    }
+
+    .input-area {
+        padding: 10px;
     }
 }
 </style>
@@ -379,712 +284,311 @@ body {
 
 <body>
 
-<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="logo">UzbekGPT PRO</div>
 
-<aside class="sidebar" id="sidebar">
-
-    <div class="logo">
-        <span>UzbekGPT</span>
-        <span class="pro">PRO</span>
-    </div>
-
-    <button class="new-chat" onclick="newChat()">
-        ＋ &nbsp; Yangi chat
+    <button type="button" class="side-button" id="newChatButton">
+        ➕ Yangi chat
     </button>
 
-    <div class="history-title">
-        CHAT TARIXI
-    </div>
+    <button type="button" class="side-button" id="darkButton">
+        🌙 Dark mode
+    </button>
 
+    <div class="history-title">Chat tarixi</div>
     <div id="history"></div>
-
-    <div class="bottom-menu">
-
-        <button class="menu-button" onclick="toggleTheme()">
-            🌙 &nbsp; Rejimni almashtirish
-        </button>
-
-        <button class="menu-button" onclick="clearAllChats()">
-            🗑️ &nbsp; Barcha chatlarni o‘chirish
-        </button>
-
-    </div>
-
 </aside>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
-    <header class="topbar">
-
-        <button
-            class="mobile-menu"
-            onclick="toggleSidebar()">
-
-            ☰
-
-        </button>
-
-        <div class="top-title">
-            UzbekGPT
-        </div>
-
-        <div class="status">
-            ● Online
-        </div>
-
+    <header class="header">
+        UzbekGPT
     </header>
 
+    <section class="chat" id="chat">
+        <div class="message assistant">
+            <div class="avatar">U</div>
+            <div class="message-content">
+                Salom! Men UzbekGPT. Sizga qanday yordam beray? 🤖
+            </div>
+        </div>
+    </section>
 
-    <div id="chat"></div>
+    <section class="input-area">
+        <div class="input-box">
+
+            <button type="button" class="tool-button" id="voiceButton">
+                🎤
+            </button>
+
+            <button type="button" class="tool-button" id="imageButton">
+                🖼️
+            </button>
+
+            <textarea id="prompt" rows="1" placeholder="Xabar yozing..."></textarea>
+
+            <button type="button" class="send-button" id="sendButton">
+                ➤
+            </button>
+
+        </div>
+
+        <div class="status" id="status">
+            Tayyor
+        </div>
+    </section>
 
 </main>
 
-
-<!-- INPUT -->
-
-<div id="inputArea">
-
-    <div class="input-box">
-
-        <input
-            id="question"
-            type="text"
-            placeholder="UzbekGPT'ga xabar yuboring..."
-            autocomplete="off"
-        >
-
-        <button
-            id="sendBtn"
-            onclick="sendMessage()">
-
-            ↑
-
-        </button>
-
-    </div>
-
-</div>
-
-
 <script>
+const chat = document.getElementById("chat");
+const promptInput = document.getElementById("prompt");
+const statusText = document.getElementById("status");
+const historyBox = document.getElementById("history");
 
-const questionInput =
-    document.getElementById("question");
+const newChatButton = document.getElementById("newChatButton");
+const darkButton = document.getElementById("darkButton");
+const voiceButton = document.getElementById("voiceButton");
+const imageButton = document.getElementById("imageButton");
+const sendButton = document.getElementById("sendButton");
 
-const chat =
-    document.getElementById("chat");
-
-const history =
-    document.getElementById("history");
-
-const sidebar =
-    document.getElementById("sidebar");
-
-
-let chats =
-    JSON.parse(
-        localStorage.getItem(
-            "uzbekgpt_chats"
-        ) || "[]"
-    );
-
-
-let currentChat = null;
-
-
-/* SAQLASH */
-
-function saveChats() {
-
-    localStorage.setItem(
-        "uzbekgpt_chats",
-        JSON.stringify(chats)
-    );
-
-}
-
-
-/* YANGI CHAT */
-
-function newChat() {
-
-    currentChat = {
-
-        id: Date.now(),
-
-        title: "Yangi chat",
-
-        messages: []
-
-    };
-
-    chats.unshift(currentChat);
-
-    saveChats();
-
-    renderHistory();
-
-    renderCurrentChat();
-
-    questionInput.focus();
-
-    sidebar.classList.remove("open");
-
-}
-
-
-/* BOSH CHAT */
-
-function showWelcome() {
-
-    chat.innerHTML = `
-
-        <div class="welcome">
-
-            <h1>UzbekGPT</h1>
-
-            <p>
-                Sizga qanday yordam bera olaman?
-            </p>
-
-        </div>
-
-    `;
-
-}
-
+let imageModeEnabled = false;
 
 /* XABAR QO‘SHISH */
+function addMessage(role, text, imageUrl = null) {
+    const message = document.createElement("div");
+    message.className = "message " + role;
 
-function addMessageToScreen(text, type) {
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = role === "user" ? "S" : "U";
 
-    const message =
-        document.createElement("div");
+    const content = document.createElement("div");
+    content.className = "message-content";
+    content.textContent = text || "";
 
-    message.className =
-        "message " + type;
+    if (imageUrl) {
+        const image = document.createElement("img");
+        image.src = imageUrl;
+        image.alt = "Yaratilgan rasm";
+        content.appendChild(image);
+    }
 
-
-    const content =
-        document.createElement("div");
-
-    content.className =
-        "message-content";
-
-    content.textContent = text;
-
-
+    message.appendChild(avatar);
     message.appendChild(content);
-
     chat.appendChild(message);
 
+    chat.scrollTop = chat.scrollHeight;
 }
 
-
-/* HOZIRGI CHATNI CHIZISH */
-
-function renderCurrentChat() {
-
-    chat.innerHTML = "";
-
-
-    if (
-        !currentChat ||
-        currentChat.messages.length === 0
-    ) {
-
-        showWelcome();
-
-        return;
-
-    }
-
-
-    currentChat.messages.forEach(message => {
-
-        addMessageToScreen(
-            message.text,
-            message.type
-        );
-
-    });
-
-}
-
-
-/* PASTGA */
-
-function scrollBottom() {
-
-    setTimeout(() => {
-
-        window.scrollTo({
-
-            top:
-                document.body.scrollHeight,
-
-            behavior: "smooth"
-
-        });
-
-    }, 50);
-
-}
-
-
-/* XABAR YUBORISH */
-
-async function sendMessage() {
-
-    const question =
-        questionInput.value.trim();
-
-
-    if (!question) return;
-
-
-    if (!currentChat) {
-
-        newChat();
-
-    }
-
-
-    /* USER XABARINI SAQLAYMIZ */
-
-    currentChat.messages.push({
-
-        text: question,
-
-        type: "user"
-
-    });
-
-
-    if (
-        currentChat.title === "Yangi chat"
-    ) {
-
-        currentChat.title =
-            question.substring(0, 35);
-
-    }
-
-
-    questionInput.value = "";
-
-
-    /*
-       MUHIM:
-
-       BUTUN CHATNI O‘CHIRIB
-       QAYTA CHIZMAYMIZ.
-
-       FAQAT YANGI XABARNI
-       PASTIGA QO‘SHAMIZ.
-    */
-
-    addMessageToScreen(
-        question,
-        "user"
-    );
-
-
-    saveChats();
-
-    renderHistory();
-
-    scrollBottom();
-
-
-    /* LOADING */
-
-    const loading =
-        document.createElement("div");
-
-    loading.className =
-        "message bot";
-
-    loading.innerHTML = `
-
-        <div class="message-content">
-
-            <div class="loading">
-
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-
+/* YANGI CHAT */
+newChatButton.addEventListener("click", function() {
+    chat.innerHTML = `
+        <div class="message assistant">
+            <div class="avatar">U</div>
+            <div class="message-content">
+                Yangi chat boshlandi. Qanday yordam beray? 🤖
             </div>
-
         </div>
-
     `;
 
-
-    chat.appendChild(loading);
-
-    scrollBottom();
-
-
-    try {
-
-        /*
-           OLDINGI BARCHA
-           SUHBATNI SERVERGA YUBORAMIZ
-        */
-
-        const conversation =
-            currentChat.messages
-                .map(message => {
-
-                    if (
-                        message.type === "user"
-                    ) {
-
-                        return (
-                            "Foydalanuvchi: " +
-                            message.text
-                        );
-
-                    }
-
-                    return (
-                        "UzbekGPT: " +
-                        message.text
-                    );
-
-                })
-                .join("\n\n");
-
-
-        const response =
-            await fetch("/api/chat", {
-
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type":
-                        "application/json"
-
-                },
-
-                body: JSON.stringify({
-
-                    question:
-                        conversation
-
-                })
-
-            });
-
-
-        const data =
-            await response.json();
-
-
-        loading.remove();
-
-
-        if (data.answer) {
-
-            /*
-               JAVOBNI SHUNCHAKI
-               PASTIGA QO‘SHAMIZ
-            */
-
-            currentChat.messages.push({
-
-                text: data.answer,
-
-                type: "bot"
-
-            });
-
-
-            addMessageToScreen(
-
-                data.answer,
-
-                "bot"
-
-            );
-
-
-            saveChats();
-
-            renderHistory();
-
-            scrollBottom();
-
-        }
-
-        else {
-
-            addMessageToScreen(
-
-                data.error ||
-                "Xatolik yuz berdi.",
-
-                "bot"
-
-            );
-
-        }
-
-    }
-
-    catch (error) {
-
-        loading.remove();
-
-
-        addMessageToScreen(
-
-            "Server bilan bog‘lanib bo‘lmadi.",
-
-            "bot"
-
-        );
-
-    }
-
-}
-
-
-/* TARIX */
-
-function renderHistory() {
-
-    history.innerHTML = "";
-
-
-    chats.forEach(item => {
-
-        const row =
-            document.createElement("div");
-
-        row.className =
-            "chat-item";
-
-
-        if (
-            currentChat &&
-            currentChat.id === item.id
-        ) {
-
-            row.classList.add("active");
-
-        }
-
-
-        const name =
-            document.createElement("span");
-
-        name.className =
-            "chat-name";
-
-        name.textContent =
-            "💬 " + item.title;
-
-
-        const deleteButton =
-            document.createElement("button");
-
-        deleteButton.className =
-            "delete-chat";
-
-        deleteButton.textContent =
-            "✕";
-
-
-        deleteButton.onclick =
-            function(event) {
-
-                event.stopPropagation();
-
-                deleteChat(item.id);
-
-            };
-
-
-        row.onclick =
-            function() {
-
-                openChat(item.id);
-
-            };
-
-
-        row.appendChild(name);
-
-        row.appendChild(deleteButton);
-
-        history.appendChild(row);
-
-    });
-
-}
-
-
-/* CHAT OCHISH */
-
-function openChat(id) {
-
-    currentChat =
-        chats.find(
-            item => item.id === id
-        );
-
-
-    renderCurrentChat();
-
-    renderHistory();
-
-    sidebar.classList.remove("open");
-
-    scrollBottom();
-
-}
-
-
-/* CHAT O‘CHIRISH */
-
-function deleteChat(id) {
-
-    chats =
-        chats.filter(
-            item => item.id !== id
-        );
-
-
-    if (
-        currentChat &&
-        currentChat.id === id
-    ) {
-
-        currentChat = null;
-
-        showWelcome();
-
-    }
-
-
-    saveChats();
-
-    renderHistory();
-
-}
-
-
-/* BARCHA CHATLAR */
-
-function clearAllChats() {
-
-    if (
-        !confirm(
-            "Barcha chatlarni o‘chirishni xohlaysizmi?"
-        )
-    ) return;
-
-
-    chats = [];
-
-    currentChat = null;
-
-
-    saveChats();
-
-    showWelcome();
-
-    renderHistory();
-
-}
-
+    promptInput.value = "";
+    statusText.textContent = "Yangi chat tayyor";
+});
 
 /* DARK MODE */
-
-function toggleTheme() {
-
+darkButton.addEventListener("click", function() {
     document.body.classList.toggle("dark");
 
-    localStorage.setItem(
+    const enabled = document.body.classList.contains("dark");
+    localStorage.setItem("darkMode", enabled);
 
-        "uzbekgpt_dark",
+    darkButton.textContent = enabled
+        ? "☀️ Light mode"
+        : "🌙 Dark mode";
+});
 
-        document.body.classList.contains("dark")
-
-    );
-
+if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark");
+    darkButton.textContent = "☀️ Light mode";
 }
 
+/* RASM REJIMI */
+imageButton.addEventListener("click", function() {
+    imageModeEnabled = !imageModeEnabled;
 
-/* MOBIL */
-
-function toggleSidebar() {
-
-    sidebar.classList.toggle("open");
-
-}
-
-
-/* ENTER */
-
-questionInput.addEventListener(
-
-    "keydown",
-
-    function(event) {
-
-        if (event.key === "Enter") {
-
-            sendMessage();
-
-        }
-
+    if (imageModeEnabled) {
+        promptInput.placeholder = "Qanday rasm yaratamiz?";
+        statusText.textContent = "Rasm rejimi yoqildi 🖼️";
+        imageButton.style.background = "#10a37f";
+        imageButton.style.color = "white";
+    } else {
+        promptInput.placeholder = "Xabar yozing...";
+        statusText.textContent = "Oddiy chat rejimi";
+        imageButton.style.background = "";
+        imageButton.style.color = "";
     }
 
-);
+    promptInput.focus();
+});
 
+/* XABAR YUBORISH */
+sendButton.addEventListener("click", sendMessage);
 
-/* DARK MODE */
+promptInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+    }
+});
 
-if (
+async function sendMessage() {
+    const text = promptInput.value.trim();
 
-    localStorage.getItem(
-        "uzbekgpt_dark"
-    ) === "true"
+    if (!text) {
+        statusText.textContent = "Avval xabar yozing";
+        return;
+    }
 
-) {
+    addMessage("user", text);
+    promptInput.value = "";
+    sendButton.disabled = true;
+    statusText.textContent = "Javob tayyorlanmoqda...";
 
-    document.body.classList.add("dark");
+    try {
+        const endpoint = imageModeEnabled
+            ? "/api/image"
+            : "/api/chat";
 
+        const body = imageModeEnabled
+            ? { prompt: text }
+            : { message: text };
+
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || data.message || "Server xatosi");
+        }
+
+        if (imageModeEnabled && data.image) {
+            addMessage("assistant", "Mana siz so‘ragan rasm:", data.image);
+        } else {
+            const reply = data.reply || data.message || data.text;
+
+            if (reply) {
+                addMessage("assistant", reply);
+            } else {
+                addMessage("assistant", "Server bo‘sh javob qaytardi.");
+            }
+        }
+
+        saveHistory(text);
+
+    } catch (error) {
+        console.error(error);
+
+        addMessage(
+            "assistant",
+            "Xatolik: " + error.message
+        );
+
+        statusText.textContent = "Xatolik yuz berdi";
+    }
+
+    imageModeEnabled = false;
+    imageButton.style.background = "";
+    imageButton.style.color = "";
+    promptInput.placeholder = "Xabar yozing...";
+    sendButton.disabled = false;
+    statusText.textContent = "Tayyor";
 }
 
+/* CHAT TARIXI */
+function saveHistory(text) {
+    const history = JSON.parse(
+        localStorage.getItem("chatHistory") || "[]"
+    );
 
-/* BOSHLANG‘ICH */
+    history.push(text);
 
-renderHistory();
+    localStorage.setItem(
+        "chatHistory",
+        JSON.stringify(history.slice(-20))
+    );
 
-
-if (chats.length > 0) {
-
-    currentChat = chats[0];
-
-    renderCurrentChat();
-
+    showHistory();
 }
 
-else {
+function showHistory() {
+    historyBox.innerHTML = "";
 
-    showWelcome();
+    const history = JSON.parse(
+        localStorage.getItem("chatHistory") || "[]"
+    );
 
+    history.forEach(function(text) {
+        const item = document.createElement("div");
+        item.className = "history-item";
+        item.textContent = "💬 " + text;
+
+        item.addEventListener("click", function() {
+            promptInput.value = text;
+            promptInput.focus();
+        });
+
+        historyBox.appendChild(item);
+    });
 }
 
+showHistory();
+
+/* MIKROFON */
+voiceButton.addEventListener("click", function() {
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Sizning brauzeringiz mikrofonni qo‘llab-quvvatlamaydi.");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "uz-UZ";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    statusText.textContent = "Tinglayapman... 🎤";
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        promptInput.value =
+            event.results[0][0].transcript;
+
+        statusText.textContent = "Ovoz qabul qilindi";
+    };
+
+    recognition.onerror = function(event) {
+        statusText.textContent =
+            "Mikrofon xatosi: " + event.error;
+    };
+
+    recognition.onend = function() {
+        if (statusText.textContent === "Tinglayapman... 🎤") {
+            statusText.textContent = "Tayyor";
+        }
+    };
+});
 </script>
 
 </body>
